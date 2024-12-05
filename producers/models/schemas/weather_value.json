@@ -5,7 +5,7 @@
   "fields": [
     {
       "name": "status",
-      "type": "int"
+      "type": "string"
     },
     {
       "name": "temperature",

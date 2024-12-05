@@ -68,12 +68,12 @@ class Weather(Producer):
     def run(self, month):
         self._set_weather(month)
         payload = {
-            "key_schema": '"string"',
+            "key_schema": json.dumps(Weather.key_schema),
             "value_schema": json.dumps(Weather.value_schema),
             "records": [
                 {
-                    "key": str(time.time()),
-                    "value": {"status": self.status.value, "temperature": self.temp},
+                    "key": {"timestamp": self.time_millis()},
+                    "value": {"status": self.status.name, "temperature": self.temp},
                 },
             ],
         }

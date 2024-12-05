@@ -21,4 +21,4 @@ class Weather:
     def process_message(self, message):
         data = message.value()
         self.temperature = data['temperature']
-        self.status = Weather.status(data['status']).name
+        self.status = data['status']
