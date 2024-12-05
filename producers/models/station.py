@@ -16,10 +16,6 @@ logger = logging.getLogger(__name__)
 class Station(Producer):
     """Defines a single station"""
 
-    colors = IntEnum("colors", "blue green red", start=0)
-    
-    train_status = IntEnum("status", "out_of_service in_service broken_down", start=0)
-
     key_schema = avro.load(f"{Path(__file__).parents[0]}/schemas/arrival_key.json")
 
     value_schema = avro.load(f"{Path(__file__).parents[0]}/schemas/arrival_value.json")
@@ -61,8 +57,8 @@ class Station(Producer):
                     "station_id": self.station_id,
                     "train_id": train.train_id,
                     "direction": direction,
-                    "line": Station.colors(self.color).name,
-                    "train_status": Station.train_status(train.status).name,
+                    "line": self.color.name,
+                    "train_status": train.status.name,
                     "prev_station_id": prev_station_id,
                     "prev_direction": prev_direction,
                 },

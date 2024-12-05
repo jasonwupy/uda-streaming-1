@@ -13,7 +13,6 @@ logger = logging.getLogger(__name__)
 
 
 class Turnstile(Producer):
-    colors = IntEnum("colors", "blue green red", start=0)
     
     key_schema = avro.load(f"{Path(__file__).parents[0]}/schemas/turnstile_key.json")
 
@@ -52,6 +51,6 @@ class Turnstile(Producer):
             value={
                 "station_id": self.station.station_id,
                 "station_name": self.station.name,
-                "line": Turnstile.colors(self.station.color).name
+                "line" : self.station.color.name
             },
         )
