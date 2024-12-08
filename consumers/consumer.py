@@ -6,7 +6,6 @@ from confluent_kafka import Consumer
 from confluent_kafka.avro import AvroConsumer
 from confluent_kafka.avro.serializer import SerializerError
 from tornado import gen
-from confluent_kafka import OFFSET_BEGINNING
 
 
 logger = logging.getLogger(__name__)
@@ -33,7 +32,7 @@ class KafkaConsumer:
 
         self.broker_properties = {
             'bootstrap.servers': 'localhost:9092',
-            'auto.offset.reset': 'latest',
+            "auto.offset.reset": "earliest" if offset_earliest else "latest",
             'group.id': '1'
         }
 
@@ -48,7 +47,8 @@ class KafkaConsumer:
         """Callback for when topic assignment takes place"""
         logger.info("on_assign is incomplete - skipping")
         for partition in partitions:
-            partition.offset = OFFSET_BEGINNING
+            if self.offset_earliest:
+                partition.offset = "earliest"
         logger.info("partitions assigned for %s", self.topic_name_pattern)
         consumer.assign(partitions)
 
