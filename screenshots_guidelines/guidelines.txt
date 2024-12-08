@@ -1,0 +1,20 @@
+steps to the project
+- run docker compose file and make sure all services started (docker_containers.png). Sometimes errors occur, please run it again
+- run producers/simulation.py to simulate data
+- run producers/connector.py to stream data for weather
+- run consumers/ksql.py to create ksql table
+- run 'faust -A faust_stream worker -l info' to start faust
+- run consumers/server and then go to http://localhost:8888/ to see the webpage
+
+steps to see data
+- kafka data
+    - go to kafka container by command 'docker exec -it <kafka_container_name> bash'
+    - then execute 'cd usr/bin/' to go to where contains kafka libs
+    - then use can execute any kafka command:
+        - kafka-topics --bootstrap-server localhost:9092 --list
+        - kafka-console-consumer --bootstrap-server localhost:9092 --topic org.chicago.cta.weather --from-beginning
+
+- ksql data
+    - go to ksql server container by command 'docker exec -it <ksql_container_name> bash'
+    - then run 'ksql http://localhost:8088' to go to command console 
+    - then you can execute: show tables;  select * from turnstile;  select * from turnstile_summary;;
